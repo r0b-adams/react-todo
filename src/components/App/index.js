@@ -38,22 +38,32 @@ export default function App() {
       </form>
 
       <section className='incomplete'>
-        <h2>
-          To Do
-        </h2>
-        <p>
-          (X) Items Remaining
-        </p>
+        <h2>To Do</h2>
+        <p>(X) Items Remaining</p>
+
+        {/*ADD LIST ITEMS HERE*/}
+
+        <button type='button'>
+          Complete All
+        </button>
       </section>
 
       <section className='complete'>
-        <h2>
-          Completed
-        </h2>
-        <p>
-          (Y) Items Completed
-        </p>
+        <h2>Completed</h2>
+        <p>(Y) Items Completed</p>
+
+        {/*ADD LIST ITEMS HERE*/}
+
+        <button type='button'>
+          Clear All Completed
+        </button>
       </section>
+
+      <footer>
+        <nav>
+          <a href='https://github.com/comatosino'><img src='https://github.githubassets.com/apple-touch-icon-114x114.png' height='50px' alt='GitHub Logo'></img></a>
+        </nav>
+      </footer>
     </>
   )
 }
