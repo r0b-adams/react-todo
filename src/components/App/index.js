@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 export default function App() {
@@ -7,39 +7,26 @@ export default function App() {
     // setTodos => call this function to update todos
   // notice that we pass a param to useState
     // in this case, we initialize state with empty array
-  const [todos, setTodos] = useState([
-    {
-      id: uuidv4(),
-      text: 'do some coding',
-      completed: true,
-      completedDate: new Date(),
-    },
-    {
-      id: uuidv4(),
-      text: 'kick some butt',
-      completed: false,
-      completedDate: null,
-    },
-    {
-      id: uuidv4(),
-      text: 'love on Jeanna',
-      completed: false,
-      completedDate: null,
-    },
-    {
-      id: uuidv4(),
-      text: 'get a cat!',
-      completed: false,
-      completedDate: null,
-    },
-  ]);
+  const [todos, setTodos] = useState([]);
 
-  // this will be used for the text input
+  // this useEffect fires once on render
+  // it looks for saved todos in local storage
+  // if an array exists there, it will update state with this info
+  // this is one way to persist data
+  useEffect(() => {
+    const savedTodos = JSON.parse(localStorage.getItem('react-todos'));
+
+    if (savedTodos) {
+      setTodos(savedTodos);
+    };
+  }, []);
+
+  // this useEffect fires whenever there is a change to the todos state
+  useEffect(() => {
+    localStorage.setItem('react-todos', JSON.stringify(todos));
+  }, [todos]);
+
   const [input, setInput] = useState('');
-
-  // we will need to call useEffect
-    // once on page load to retrieve todos
-    // anytime todos is updated
 
   const handleSave = (e) => {
     e.preventDefault();
@@ -78,7 +65,7 @@ export default function App() {
 
         {/*ADD LIST ITEMS HERE*/}
         <ul>
-          {todos.filter(todoItem => todoItem.completed).map(todo => {
+          {todos.filter(todoItem => !todoItem.completed).map(todo => {
             return (
               <li key={todo.id}>
                 <p>{todo.text}</p>
@@ -88,9 +75,7 @@ export default function App() {
           })}
         </ul>
 
-        <button type='button'>
-          Complete All
-        </button>
+        <button type='button'>Complete All</button>
       </section>
 
       <section className='complete'>
@@ -99,7 +84,7 @@ export default function App() {
 
         {/*ADD LIST ITEMS HERE*/}
         <ul>
-          {todos.filter(todoItem => !todoItem.completed).map(todo => {
+          {todos.filter(todoItem => todoItem.completed).map(todo => {
             return (
               <li>
                 <p>{todo.text}</p>
@@ -109,9 +94,7 @@ export default function App() {
           })}
         </ul>
 
-        <button type='button'>
-          Clear All Completed
-        </button>
+        <button type='button'>Clear All Completed</button>
       </section>
 
       <footer>
