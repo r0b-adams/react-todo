@@ -43,11 +43,11 @@ export default function App() {
     setInput('');           // clear input field
   }
 
-  // const handleCompleteAll = () => {
-  //   const completeAll = [...todos];
-  //   completeAll.forEach(item => item.complete = true);
-  //   setTodos(completeAll);
-  // }
+  const handleCompleteAll = () => {
+    const completeAll = [...todos];
+    completeAll.forEach(item => item.complete = true);
+    setTodos(completeAll);
+  }
 
   return (
     <>
