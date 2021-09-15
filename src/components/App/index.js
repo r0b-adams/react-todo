@@ -15,10 +15,7 @@ export default function App() {
   // this is one way to persist data
   useEffect(() => {
     const savedTodos = JSON.parse(localStorage.getItem('react-todos'));
-
-    if (savedTodos) {
-      setTodos(savedTodos);
-    };
+    if (savedTodos) { setTodos(savedTodos); };
   }, []);
 
   // this useEffect fires whenever there is a change to the todos state
@@ -26,21 +23,31 @@ export default function App() {
     localStorage.setItem('react-todos', JSON.stringify(todos));
   }, [todos]);
 
+  // handles form text input;
   const [input, setInput] = useState('');
 
   const handleSave = (e) => {
     e.preventDefault();
 
+    // create a new todo object with unique id
     const newTodo = {
       id: uuidv4(),
       text: input,
       complete: false,
     }
 
-    const updatedTodos = [...todos, newTodo];
-    setTodos(updatedTodos);
-    setInput('');
+    // create new array with newTodo and concat prev state
+    // this makes the newest element appear first
+    const updatedTodos = [newTodo].concat(todos);
+    setTodos(updatedTodos); // set new state
+    setInput('');           // clear input field
   }
+
+  // const handleCompleteAll = () => {
+  //   const completeAll = [...todos];
+  //   completeAll.forEach(item => item.complete = true);
+  //   setTodos(completeAll);
+  // }
 
   return (
     <>
@@ -65,7 +72,7 @@ export default function App() {
 
         {/*ADD LIST ITEMS HERE*/}
         <ul>
-          {todos.filter(todoItem => !todoItem.completed).map(todo => {
+          {todos.filter(todoItem => !todoItem.complete).map(todo => {
             return (
               <li key={todo.id}>
                 <p>{todo.text}</p>
@@ -75,7 +82,7 @@ export default function App() {
           })}
         </ul>
 
-        <button type='button'>Complete All</button>
+        <button type='button' onClick={handleCompleteAll}>Complete All</button>
       </section>
 
       <section className='complete'>
@@ -84,7 +91,7 @@ export default function App() {
 
         {/*ADD LIST ITEMS HERE*/}
         <ul>
-          {todos.filter(todoItem => todoItem.completed).map(todo => {
+          {todos.filter(todoItem => todoItem.complete).map(todo => {
             return (
               <li>
                 <p>{todo.text}</p>
