@@ -7,7 +7,32 @@ export default function App() {
     // setTodos => call this function to update todos
   // notice that we pass a param to useState
     // in this case, we initialize state with empty array
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState([
+    {
+      id: uuidv4(),
+      text: 'do some coding',
+      completed: true,
+      completedDate: new Date(),
+    },
+    {
+      id: uuidv4(),
+      text: 'kick some butt',
+      completed: false,
+      completedDate: null,
+    },
+    {
+      id: uuidv4(),
+      text: 'love on Jeanna',
+      completed: false,
+      completedDate: null,
+    },
+    {
+      id: uuidv4(),
+      text: 'get a cat!',
+      completed: false,
+      completedDate: null,
+    },
+  ]);
 
   // this will be used for the text input
   const [input, setInput] = useState('');
@@ -42,6 +67,16 @@ export default function App() {
         <p>(X) Items Remaining</p>
 
         {/*ADD LIST ITEMS HERE*/}
+        <ul>
+          {todos.filter(todoItem => todoItem.completed).map(todo => {
+            return (
+              <li>
+                <p>{todo.text}</p>
+                <input type='checkbox'></input>
+              </li>
+            );
+          })}
+        </ul>
 
         <button type='button'>
           Complete All
@@ -53,6 +88,16 @@ export default function App() {
         <p>(Y) Items Completed</p>
 
         {/*ADD LIST ITEMS HERE*/}
+        <ul>
+          {todos.filter(todoItem => !todoItem.completed).map(todo => {
+            return (
+              <li>
+                <p>{todo.text}</p>
+                <input type='checkbox'></input>
+              </li>
+            );
+          })}
+        </ul>
 
         <button type='button'>
           Clear All Completed
