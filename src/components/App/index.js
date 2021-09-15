@@ -43,7 +43,16 @@ export default function App() {
 
   const handleSave = (e) => {
     e.preventDefault();
-    console.log('SAVE');
+
+    const newTodo = {
+      id: uuidv4(),
+      text: input,
+      complete: false,
+    }
+
+    const updatedTodos = [...todos, newTodo];
+    setTodos(updatedTodos);
+    setInput('');
   }
 
   return (
@@ -57,6 +66,7 @@ export default function App() {
       <form onSubmit={handleSave}>
         <input type='text'
                placeholder='Enter Todo Item'
+               value={input}
                onChange={e => setInput(e.target.value)}>
         </input>
         <button type='submit'>Save</button>
@@ -70,7 +80,7 @@ export default function App() {
         <ul>
           {todos.filter(todoItem => todoItem.completed).map(todo => {
             return (
-              <li>
+              <li key={todo.id}>
                 <p>{todo.text}</p>
                 <input type='checkbox'></input>
               </li>
