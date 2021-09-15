@@ -24,16 +24,36 @@ export default function App() {
   return (
     <>
       <header>
-        React Todo List
+        <h1>
+          React Todo List
+        </h1>
       </header>
 
       <form onSubmit={handleSave}>
         <input type='text'
+               placeholder='Enter Todo Item'
                onChange={e => setInput(e.target.value)}>
         </input>
         <button type='submit'>Save</button>
       </form>
 
+      <section className='incomplete'>
+        <h2>
+          To Do
+        </h2>
+        <p>
+          (X) Items Remaining
+        </p>
+      </section>
+
+      <section className='complete'>
+        <h2>
+          Completed
+        </h2>
+        <p>
+          (Y) Items Completed
+        </p>
+      </section>
     </>
   )
 }
