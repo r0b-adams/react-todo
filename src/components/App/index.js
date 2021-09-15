@@ -43,6 +43,7 @@ export default function App() {
     setInput('');           // clear input field
   }
 
+  // sets all todo items to 'complete'
   const handleCompleteAll = () => {
     const completeAll = [...todos];
     completeAll.forEach(item => item.complete = true);
@@ -70,13 +71,12 @@ export default function App() {
         <h2>To Do</h2>
         <p>(X) Items Remaining</p>
 
-        {/*ADD LIST ITEMS HERE*/}
         <ul>
           {todos.filter(todoItem => !todoItem.complete).map(todo => {
             return (
               <li key={todo.id}>
                 <p>{todo.text}</p>
-                <input type='checkbox'></input>
+                <button type='button'>Mark Complete</button>
               </li>
             );
           })}
@@ -89,13 +89,12 @@ export default function App() {
         <h2>Completed</h2>
         <p>(Y) Items Completed</p>
 
-        {/*ADD LIST ITEMS HERE*/}
         <ul>
           {todos.filter(todoItem => todoItem.complete).map(todo => {
             return (
               <li>
                 <p>{todo.text}</p>
-                <input type='checkbox'></input>
+                <button type='button'>Mark Incomplete</button>
               </li>
             );
           })}
