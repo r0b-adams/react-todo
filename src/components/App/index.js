@@ -87,48 +87,20 @@ export default function App() {
             value={input}>
       </Form>
 
-      <ListBox handleComplete={handleComplete}
-               handleCompleteAll={handleCompleteAll}
-               todos={todos.filter(item => !item.complete)}>
+      <ListBox complete={false}
+               handleComplete={handleComplete}
+               handleAll={handleCompleteAll}
+               todos={todos.filter(item => !item.complete)}
+>
       </ListBox>
 
       <hr></hr>
 
-      {/* <section className='incomplete'>
-        <h2>To Do</h2>
-        <p>{incomplete} Items Remaining</p>
-
-        <ul>
-          {todos.filter(todoItem => !todoItem.complete).map(todo => {
-            return (
-              <li key={todo.id}>
-                <p>{todo.text}</p>
-                <button type='button' onClick={() => handleComplete(todo.id)}>Mark Complete</button>
-              </li>
-            );
-          })}
-        </ul>
-
-        <button type='button' onClick={handleCompleteAll}>Complete All</button>
-      </section> */}
-
-      <section className='complete'>
-        <h2>Completed</h2>
-        <p>Items Completed</p>
-
-        <ul>
-          {todos.filter(todoItem => todoItem.complete).map(todo => {
-            return (
-              <li key={todo.id}>
-                <p>{todo.text}</p>
-                <button type='button' onClick={() => handleComplete(todo.id)}>Mark Incomplete</button>
-              </li>
-            );
-          })}
-        </ul>
-
-        <button type='button' onClick={handleClearComplete}>Clear All Completed</button>
-      </section>
+      <ListBox complete={true}
+               handleComplete={handleComplete}
+               handleAll={handleClearComplete}
+               todos={todos.filter(item => item.complete)}>
+      </ListBox>
 
       <footer>
         <nav>
