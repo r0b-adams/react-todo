@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import Header from '../Header';
 import Form from '../Form';
+import ListBox from '../ListBox';
 
 export default function App() {
   // useState returns an array that we destructure
@@ -28,9 +29,6 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem('react-todos', JSON.stringify(todos));
   }, [todos]);
-
-  const complete = todos.filter(item => item.complete).length;
-  const incomplete = todos.filter(item => !item.complete).length;
 
   // handles form text input
   const [input, setInput] = useState('');
@@ -89,7 +87,14 @@ export default function App() {
             value={input}>
       </Form>
 
-      <section className='incomplete'>
+      <ListBox handleComplete={handleComplete}
+               handleCompleteAll={handleCompleteAll}
+               todos={todos.filter(item => !item.complete)}>
+      </ListBox>
+
+      <hr></hr>
+
+      {/* <section className='incomplete'>
         <h2>To Do</h2>
         <p>{incomplete} Items Remaining</p>
 
@@ -105,11 +110,11 @@ export default function App() {
         </ul>
 
         <button type='button' onClick={handleCompleteAll}>Complete All</button>
-      </section>
+      </section> */}
 
       <section className='complete'>
         <h2>Completed</h2>
-        <p>{complete} Items Completed</p>
+        <p>Items Completed</p>
 
         <ul>
           {todos.filter(todoItem => todoItem.complete).map(todo => {
