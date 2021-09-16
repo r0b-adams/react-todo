@@ -16,6 +16,7 @@ export default function App() {
   useEffect(() => {
     const savedTodos = JSON.parse(localStorage.getItem('react-todos'));
     if (savedTodos) { setTodos(savedTodos); };
+
   }, []);
 
   // this useEffect fires whenever there is a change to the todos state
@@ -25,6 +26,8 @@ export default function App() {
 
   // handles form text input
   const [input, setInput] = useState('');
+
+  const [count, setCount] = useState({todo: 0, done: 0});
 
   const handleSubmit = (e) => {
     e.preventDefault(); // prevent page refresh on form submit
@@ -47,12 +50,14 @@ export default function App() {
   const handleCompleteAll = () => {
     const completeAll = [...todos];
     completeAll.forEach(item => item.complete = true);
+    setCount({...count, todo: 0, done: todos.length});
     setTodos(completeAll);
   }
 
   // clear all todo items marked 'complete'
   const handleClearComplete = () => {
     const incomplete = todos.filter(item => !item.complete);
+    setCount({...count, done: 0});
     setTodos(incomplete);
   }
 
@@ -75,7 +80,7 @@ export default function App() {
 
       <section className='incomplete'>
         <h2>To Do</h2>
-        <p>(X) Items Remaining</p>
+        <p>{count.todo} Items Remaining</p>
 
         <ul>
           {todos.filter(todoItem => !todoItem.complete).map(todo => {
@@ -93,7 +98,7 @@ export default function App() {
 
       <section className='complete'>
         <h2>Completed</h2>
-        <p>(Y) Items Completed</p>
+        <p>{count.done} Items Completed</p>
 
         <ul>
           {todos.filter(todoItem => todoItem.complete).map(todo => {
