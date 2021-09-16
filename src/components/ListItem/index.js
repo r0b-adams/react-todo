@@ -1,9 +1,14 @@
 import React from 'react'
 
-export default function ListItem() {
+export default function ListItem({text, id, handleComplete}) {
     return (
-        <div>
-
-        </div>
+        <li>
+            <span>
+                {text}
+            </span>
+            <button type='button' onClick={() => handleComplete(id)}>
+                Mark Complete
+            </button>
+        </li>
     )
 }
