@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
+import Header from '../Header';
+import Form from '../Form';
+
 export default function App() {
   // useState returns an array that we destructure
     // todos => our state array
@@ -32,7 +35,11 @@ export default function App() {
   // handles form text input
   const [input, setInput] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleInputChange = e => {
+    setInput(e.target.value)
+  }
+
+  const handleSubmit = e => {
     e.preventDefault(); // prevent page refresh on form submit
 
     // create a new todo object with unique id
@@ -77,14 +84,10 @@ export default function App() {
     <>
       <Header />
 
-      <form onSubmit={handleSubmit}>
-        <input type='text'
-               placeholder='Enter Todo Item'
-               value={input}
-               onChange={e => setInput(e.target.value)}>
-        </input>
-        <button type='submit'>Save</button>
-      </form>
+      <Form handleInputChange={handleInputChange}
+            handleSubmit={handleSubmit}
+            value={input}>
+      </Form>
 
       <section className='incomplete'>
         <h2>To Do</h2>
