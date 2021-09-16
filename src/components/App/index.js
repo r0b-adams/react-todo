@@ -23,11 +23,11 @@ export default function App() {
     localStorage.setItem('react-todos', JSON.stringify(todos));
   }, [todos]);
 
-  // handles form text input;
+  // handles form text input
   const [input, setInput] = useState('');
 
-  const handleSave = (e) => {
-    e.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault(); // prevent page refresh on form submit
 
     // create a new todo object with unique id
     const newTodo = {
@@ -50,6 +50,12 @@ export default function App() {
     setTodos(completeAll);
   }
 
+  // clear all todo items marked 'complete'
+  const handleClearComplete = () => {
+    const incomplete = todos.filter(item => !item.complete);
+    setTodos(incomplete);
+  }
+
   return (
     <>
       <header>
@@ -58,7 +64,7 @@ export default function App() {
         </h1>
       </header>
 
-      <form onSubmit={handleSave}>
+      <form onSubmit={handleSubmit}>
         <input type='text'
                placeholder='Enter Todo Item'
                value={input}
@@ -100,7 +106,7 @@ export default function App() {
           })}
         </ul>
 
-        <button type='button'>Clear All Completed</button>
+        <button type='button' onClick={handleClearComplete}>Clear All Completed</button>
       </section>
 
       <footer>
