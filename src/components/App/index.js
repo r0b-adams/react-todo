@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import Header from '../Header';
 import Form from '../Form';
 import ListBox from '../ListBox';
+import Footer from '../Footer';
 
 export default function App() {
   // useState returns an array that we destructure
@@ -94,7 +95,9 @@ export default function App() {
 >
       </ListBox>
 
+      <br></br>
       <hr></hr>
+      <br></br>
 
       <ListBox complete={true}
                handleComplete={handleComplete}
@@ -102,11 +105,7 @@ export default function App() {
                todos={todos.filter(item => item.complete)}>
       </ListBox>
 
-      <footer>
-        <nav>
-          <a href='https://github.com/comatosino'><img src='https://github.githubassets.com/apple-touch-icon-114x114.png' height='50px' alt='GitHub Logo'></img></a>
-        </nav>
-      </footer>
+      <Footer />
     </>
   )
 }
