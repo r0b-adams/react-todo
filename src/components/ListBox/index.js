@@ -2,22 +2,24 @@ import React from 'react'
 
 import List from '../List';
 
-export default function ListBox({handleComplete, handleCompleteAll, todos}) {
+export default function ListBox({complete, handleComplete, handleAll, todos}) {
+
+
 
     return (
         <section>
 
-        {/* prop here */}
         <h2>To Do</h2>
 
-        {/* props here */}
-        <p>{todos.length} Items Remaining</p>
+        <p>{todos.length} {complete ? 'Items Completed' : 'Items Remaining'}</p>
 
-        {/* factor out filter */}
         <List todos={todos}
-              handleComplete={handleComplete}  />
+              handleComplete={handleComplete}>
+        </List>
 
-        <button type='button' onClick={() => handleCompleteAll()}>Complete All</button>
+        <button type='button' onClick={() => handleAll()}>
+            {complete ? 'Clear All Completed' : 'Mark All Completed'}
+        </button>
 
       </section>
     )
