@@ -50,6 +50,8 @@ export default function App() {
     setInput('');                           // clear input field
   }
 
+  // mark an incomplete todo as complete
+  // or revert a completed todo as incomplete
   const handleComplete = (id) => {
     const updatedTodos = [...todos];
     const completedTodo = updatedTodos.find(item => item.id === id);
@@ -73,11 +75,7 @@ export default function App() {
 
   return (
     <>
-      <header>
-        <h1>
-          React Todo List
-        </h1>
-      </header>
+      <Header />
 
       <form onSubmit={handleSubmit}>
         <input type='text'
