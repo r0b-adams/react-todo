@@ -16,18 +16,16 @@ export default function App() {
   useEffect(() => {
     const savedTodos = JSON.parse(localStorage.getItem('react-todos'));
     if (savedTodos) { setTodos(savedTodos); };
-
   }, []);
 
   // this useEffect fires whenever there is a change to the todos state
+  // saves changes to local storage AND updates counts
   useEffect(() => {
     localStorage.setItem('react-todos', JSON.stringify(todos));
   }, [todos]);
 
   // handles form text input
   const [input, setInput] = useState('');
-
-  const [count, setCount] = useState({todo: 0, done: 0});
 
   const handleSubmit = (e) => {
     e.preventDefault(); // prevent page refresh on form submit
@@ -46,19 +44,24 @@ export default function App() {
     setInput('');           // clear input field
   }
 
+  const handleComplete = (id) => {
+    const updatedTodos = [...todos];
+    const completedTodo = updatedTodos.find(item => item.id === id);
+    completedTodo.complete = !completedTodo.complete;
+    setTodos(updatedTodos);
+  }
+
   // sets all todo items to 'complete'
   const handleCompleteAll = () => {
-    const completeAll = [...todos];
-    completeAll.forEach(item => item.complete = true);
-    setCount({...count, todo: 0, done: todos.length});
-    setTodos(completeAll);
+    const completedTodos = [...todos];
+    completedTodos.forEach(item => item.complete = true);
+    setTodos(completedTodos);
   }
 
   // clear all todo items marked 'complete'
   const handleClearComplete = () => {
-    const incomplete = todos.filter(item => !item.complete);
-    setCount({...count, done: 0});
-    setTodos(incomplete);
+    const incompleteTodos = todos.filter(item => !item.complete);
+    setTodos(incompleteTodos);
   }
 
   return (
@@ -80,14 +83,14 @@ export default function App() {
 
       <section className='incomplete'>
         <h2>To Do</h2>
-        <p>{count.todo} Items Remaining</p>
+        <p> Items Remaining</p>
 
         <ul>
           {todos.filter(todoItem => !todoItem.complete).map(todo => {
             return (
               <li key={todo.id}>
                 <p>{todo.text}</p>
-                <button type='button'>Mark Complete</button>
+                <button type='button' onClick={() => handleComplete(todo.id)}>Mark Complete</button>
               </li>
             );
           })}
@@ -98,14 +101,14 @@ export default function App() {
 
       <section className='complete'>
         <h2>Completed</h2>
-        <p>{count.done} Items Completed</p>
+        <p>Items Completed</p>
 
         <ul>
           {todos.filter(todoItem => todoItem.complete).map(todo => {
             return (
-              <li>
+              <li key={todo.id}>
                 <p>{todo.text}</p>
-                <button type='button'>Mark Incomplete</button>
+                <button type='button' onClick={() => handleComplete(todo.id)}>Mark Incomplete</button>
               </li>
             );
           })}
