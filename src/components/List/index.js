@@ -1,9 +1,14 @@
 import React from 'react'
 
-export default function List() {
-    return (
-        <div>
+import ListItem from '../ListItem'
 
-        </div>
+export default function List({todos, handleComplete}) {
+    return (
+        <ul>
+            {todos.map(todo => <ListItem key={todo.id}
+                                         id={todo.id}
+                                         text={todo.text}
+                                         handleComplete={handleComplete}/>)}
+        </ul>
     )
 }
