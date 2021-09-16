@@ -15,7 +15,9 @@ export default function App() {
   // this is one way to persist data
   useEffect(() => {
     const savedTodos = JSON.parse(localStorage.getItem('react-todos'));
-    if (savedTodos) { setTodos(savedTodos); };
+    if (savedTodos) {
+      setTodos(savedTodos);
+    };
   }, []);
 
   // this useEffect fires whenever there is a change to the todos state
@@ -23,6 +25,9 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem('react-todos', JSON.stringify(todos));
   }, [todos]);
+
+  const complete = todos.filter(item => item.complete).length;
+  const incomplete = todos.filter(item => !item.complete).length;
 
   // handles form text input
   const [input, setInput] = useState('');
@@ -40,13 +45,15 @@ export default function App() {
     // create new array with newTodo and concat prev state
     // this makes the newest element appear first
     const updatedTodos = [newTodo].concat(todos);
-    setTodos(updatedTodos); // set new state
-    setInput('');           // clear input field
+
+    setTodos(updatedTodos);                 // set new state
+    setInput('');                           // clear input field
   }
 
   const handleComplete = (id) => {
     const updatedTodos = [...todos];
     const completedTodo = updatedTodos.find(item => item.id === id);
+
     completedTodo.complete = !completedTodo.complete;
     setTodos(updatedTodos);
   }
@@ -83,7 +90,7 @@ export default function App() {
 
       <section className='incomplete'>
         <h2>To Do</h2>
-        <p> Items Remaining</p>
+        <p>{incomplete} Items Remaining</p>
 
         <ul>
           {todos.filter(todoItem => !todoItem.complete).map(todo => {
@@ -101,7 +108,7 @@ export default function App() {
 
       <section className='complete'>
         <h2>Completed</h2>
-        <p>Items Completed</p>
+        <p>{complete} Items Completed</p>
 
         <ul>
           {todos.filter(todoItem => todoItem.complete).map(todo => {
