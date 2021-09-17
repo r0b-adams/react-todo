@@ -7,17 +7,12 @@ import ListBox from '../ListBox';
 import Footer from '../Footer';
 
 export default function App() {
-  // useState returns an array that we destructure
-    // todos => our state array
-    // setTodos => call this function to update todos
-  // notice that we pass a param to useState
-    // in this case, we initialize state with empty array
-  const [todos, setTodos] = useState([]);
 
-  // this useEffect fires once on render
-  // it looks for saved todos in local storage
-  // if an array exists there, it will update state with this info
-  // this is one way to persist data
+  const [input, setInput] = useState(''); // form input
+  const [todos, setTodos] = useState([]); // stores todo objects
+
+  // on first render, check if todos exist in local storage
+  // if so, set that to be component state
   useEffect(() => {
     const savedTodos = JSON.parse(localStorage.getItem('react-todos'));
     if (savedTodos) {
@@ -25,39 +20,34 @@ export default function App() {
     };
   }, []);
 
-  // this useEffect fires whenever there is a change to the todos state
-  // saves changes to local storage AND updates counts
+  // if todos array changes, save those changes to local storage
   useEffect(() => {
     localStorage.setItem('react-todos', JSON.stringify(todos));
   }, [todos]);
 
-  // handles form text input
-  const [input, setInput] = useState('');
-
+  // handles form text input change
   const handleInputChange = e => {
     setInput(e.target.value)
   }
 
+  // handles form submit
   const handleSubmit = e => {
-    e.preventDefault(); // prevent page refresh on form submit
+    e.preventDefault(); // prevent page refresh
 
-    // create a new todo object with unique id
     const newTodo = {
-      id: uuidv4(),
+      id: uuidv4(),    // assign unique id for ordering and updating state
       text: input,
       complete: false,
     }
 
-    // create new array with newTodo and concat prev state
-    // this makes the newest element appear first
+    // create a new array and concat todos to it
     const updatedTodos = [newTodo].concat(todos);
 
-    setTodos(updatedTodos);                 // set new state
-    setInput('');                           // clear input field
+    setTodos(updatedTodos); // set todos state to new array
+    setInput('');           // clear text input field
   }
 
-  // mark an incomplete todo as complete
-  // or revert a completed todo as incomplete
+  // toggle todo as complete or incomplete
   const handleComplete = (id) => {
     const updatedTodos = [...todos];
     const completedTodo = updatedTodos.find(item => item.id === id);
@@ -66,14 +56,14 @@ export default function App() {
     setTodos(updatedTodos);
   }
 
-  // sets all todo items to 'complete'
+  // mark all todos as complete
   const handleCompleteAll = () => {
     const completedTodos = [...todos];
     completedTodos.forEach(item => item.complete = true);
     setTodos(completedTodos);
   }
 
-  // clear all todo items marked 'complete'
+  // remove all completed todos
   const handleClearComplete = () => {
     const incompleteTodos = todos.filter(item => !item.complete);
     setTodos(incompleteTodos);
